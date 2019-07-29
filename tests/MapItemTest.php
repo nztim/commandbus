@@ -10,14 +10,14 @@ class MapItemTest extends TestCase
     {
         $item = new MapItem('AddPostHandler');
         $this->assertEquals('AddPostHandler', $item->handlerClass());
-        $this->assertEquals('__invoke', $item->handlerMethod());
+        $this->assertEquals('handle', $item->handlerMethod());
     }
 
     /** @test */
     public function method_works()
     {
-        $item = new MapItem('AddPostHandler', 'handle');
+        $item = new MapItem('AddPostHandler', '__invoke');
         $this->assertEquals('AddPostHandler', $item->handlerClass());
-        $this->assertEquals('handle', $item->handlerMethod());
+        $this->assertEquals('__invoke', $item->handlerMethod());
     }
 }

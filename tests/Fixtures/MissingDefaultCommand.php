@@ -2,10 +2,10 @@
 
 namespace NZTim\CommandBus\Tests\Fixtures;
 
-class MethodCommand
+class MissingDefaultCommand
 {
     public function val(): string
     {
-        return 'handled!';
+        return 'missing invoke!';
     }
 }

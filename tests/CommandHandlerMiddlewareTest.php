@@ -7,10 +7,10 @@ use NZTim\CommandBus\Mapping\Mapping;
 use NZTim\CommandBus\Middleware\CommandHandlerMiddleware;
 use NZTim\CommandBus\Tests\Fixtures\InvokeCommand;
 use NZTim\CommandBus\Tests\Fixtures\InvokeCommandHandler;
-use NZTim\CommandBus\Tests\Fixtures\MethodCommand;
-use NZTim\CommandBus\Tests\Fixtures\MethodCommandHandler;
-use NZTim\CommandBus\Tests\Fixtures\MissingInvokeCommand;
-use NZTim\CommandBus\Tests\Fixtures\MissingInvokeCommandHandler;
+use NZTim\CommandBus\Tests\Fixtures\DefaultCommand;
+use NZTim\CommandBus\Tests\Fixtures\DefaultCommandHandler;
+use NZTim\CommandBus\Tests\Fixtures\MissingDefaultCommand;
+use NZTim\CommandBus\Tests\Fixtures\MissingDefaultCommandHandler;
 use NZTim\CommandBus\Tests\Fixtures\MissingMethodCommand;
 use NZTim\CommandBus\Tests\Fixtures\MissingMethodCommandHandler;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -29,25 +29,31 @@ class CommandHandlerMiddlewareTest extends TestCase
     {
         $this->container = $this->createMock(ContainerInterface::class);
         $mapping = new Mapping([
-            MethodCommand::class        => new MapItem(MethodCommandHandler::class, 'handle'),
-            MissingMethodCommand::class => new MapItem(MissingMethodCommandHandler::class, 'handle'),
+            InvokeCommand::class        => new MapItem(InvokeCommandHandler::class, '__invoke'),
+            MissingMethodCommand::class => new MapItem(MissingMethodCommandHandler::class, '__invoke'),
         ]);
         $this->middleware = new CommandHandlerMiddleware($this->container, $mapping, new MapByName());
     }
 
     /** @test */
-    public function invoke_handling_works()
+    public function default_handling_works()
     {
-        $this->container->expects($this->once())->method('get')->with(InvokeCommandHandler::class)->willReturn(new InvokeCommandHandler());
-        $command = new InvokeCommand();
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with(DefaultCommandHandler::class)
+            ->willReturn(new DefaultCommandHandler());
+        $command = new DefaultCommand();
         $this->assertEquals($command->val(), $this->middleware->execute($command, $this->mockNext()));
     }
 
     /** @test */
-    public function map_handling_works()
+    public function mapped_handling_works()
     {
-        $this->container->expects($this->once())->method('get')->with(MethodCommandHandler::class)->willReturn(new MethodCommandHandler());
-        $command = new MethodCommand();
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with(InvokeCommandHandler::class)
+            ->willReturn(new InvokeCommandHandler());
+        $command = new InvokeCommand();
         $this->assertEquals($command->val(), $this->middleware->execute($command, $this->mockNext()));
     }
 
@@ -55,17 +61,23 @@ class CommandHandlerMiddlewareTest extends TestCase
     public function missing_method()
     {
         $this->expectException(RuntimeException::class);
-        $this->container->expects($this->once())->method('get')->with(MissingMethodCommandHandler::class)->willReturn(new MissingMethodCommandHandler());
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with(MissingMethodCommandHandler::class)
+            ->willReturn(new MissingMethodCommandHandler());
         $command = new MissingMethodCommand();
         $this->middleware->execute($command, $this->mockNext());
     }
 
     /** @test */
-    public function missing_invoke()
+    public function missing_default()
     {
         $this->expectException(RuntimeException::class);
-        $this->container->expects($this->once())->method('get')->with(MissingInvokeCommandHandler::class)->willReturn(new MissingInvokeCommandHandler());
-        $command = new MissingInvokeCommand();
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with(MissingDefaultCommandHandler::class)
+            ->willReturn(new MissingDefaultCommandHandler());
+        $command = new MissingDefaultCommand();
         $this->middleware->execute($command, $this->mockNext());
     }
 

@@ -34,7 +34,6 @@ class CommandBusTest extends TestCase
         $middleware1->method('execute')->willReturnCallback(
             static function ($command, $next) use (&$executionOrder) {
                 $executionOrder[] = 1;
-
                 return $next($command);
             }
         );
@@ -43,7 +42,6 @@ class CommandBusTest extends TestCase
         $middleware2->method('execute')->willReturnCallback(
             static function ($command, $next) use (&$executionOrder) {
                 $executionOrder[] = 2;
-
                 return $next($command);
             }
         );
@@ -52,7 +50,6 @@ class CommandBusTest extends TestCase
         $middleware3->method('execute')->willReturnCallback(
             static function () use (&$executionOrder) {
                 $executionOrder[] = 3;
-
                 return 'foobar';
             }
         );

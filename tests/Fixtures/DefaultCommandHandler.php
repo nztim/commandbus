@@ -2,9 +2,9 @@
 
 namespace NZTim\CommandBus\Tests\Fixtures;
 
-class MissingInvokeCommandHandler
+class DefaultCommandHandler
 {
-    public function execute(MethodCommand $command): string
+    public function handle(DefaultCommand $command): string
     {
         return $command->val();
     }

@@ -7,7 +7,7 @@ class MapItem
     private $handlerClass;
     private $handlerMethod;
 
-    public function __construct(string $handlerClass, string $handlerMethod = '__invoke')
+    public function __construct(string $handlerClass, string $handlerMethod = 'handle')
     {
         $this->handlerClass = $handlerClass;
         $this->handlerMethod = $handlerMethod;

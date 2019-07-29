@@ -10,7 +10,7 @@ class MapByNameTest extends TestCase
     {
         $item = (new MapByName())->map('AddPost');
         $this->assertEquals('AddPostHandler', $item->handlerClass());
-        $this->assertEquals('__invoke', $item->handlerMethod());
+        $this->assertEquals('handle', $item->handlerMethod());
     }
 
     /** @test */
@@ -18,6 +18,6 @@ class MapByNameTest extends TestCase
     {
         $item = (new MapByName())->map('MyNamespace\AddPost');
         $this->assertEquals('MyNamespace\AddPostHandler', $item->handlerClass());
-        $this->assertEquals('__invoke', $item->handlerMethod());
+        $this->assertEquals('handle', $item->handlerMethod());
     }
 }
