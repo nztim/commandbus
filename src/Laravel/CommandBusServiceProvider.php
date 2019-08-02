@@ -2,7 +2,6 @@
 
 namespace NZTim\CommandBus\Laravel;
 
-
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use NZTim\CommandBus\CommandBus;
