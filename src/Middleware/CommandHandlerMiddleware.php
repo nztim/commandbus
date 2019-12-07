@@ -10,12 +10,9 @@ use RuntimeException;
 
 class CommandHandlerMiddleware implements Middleware
 {
-    /** @var ContainerInterface */
-    private $container;
-    /** @var Mapping */
-    private $mapping;
-    /** @var MapByName */
-    private $mapByName;
+    private ContainerInterface $container;
+    private Mapping $mapping;
+    private MapByName $mapByName;
 
     public function __construct(ContainerInterface $container, Mapping $mapping, MapByName $mapByName)
     {

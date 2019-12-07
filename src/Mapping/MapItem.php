@@ -4,8 +4,8 @@ namespace NZTim\CommandBus\Mapping;
 
 class MapItem
 {
-    private $handlerClass;
-    private $handlerMethod;
+    private string $handlerClass;
+    private string $handlerMethod;
 
     public function __construct(string $handlerClass, string $handlerMethod = 'handle')
     {

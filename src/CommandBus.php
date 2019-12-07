@@ -22,7 +22,7 @@ class CommandBus
      * @param Middleware[]|array $middlewareList
      * @return callable
      */
-    private function createExecutionChain(array $middlewareList) : callable
+    private function createExecutionChain(array $middlewareList): callable
     {
         $lastCallable = static function () : void {}; // Ensure list is not empty
         foreach (array_reverse($middlewareList) as $middleware) {

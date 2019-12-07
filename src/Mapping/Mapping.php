@@ -5,7 +5,7 @@ namespace NZTim\CommandBus\Mapping;
 class Mapping
 {
     /** @var MapItem[] */
-    private $map;
+    private array $map;
 
     public function __construct(array $map)
     {
